@@ -2,23 +2,36 @@ package com.web.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+@Entity
+@Table(name = "Blog")
 public class Blog {
     @Id
     @GeneratedValue
+    @Column(name = "Id")
     private int id ;
+    @Column(name = "Title")
     private String title;
+    @Column(name = "ContentBlog")
     private String contentBlog ;
+    @Column(name = "TagBlog")
     private String tagBog ;
+    @Column(name = "IdCategory")
     private int idCategory ;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "DateCreated")
     private Date dateCreated;
+    @Column(name = "Views")
+    
     private long views;
 
     public Blog(int id, String title, String contentBlog, String tagBog, int idCategory, Date dateCreated, long views) {

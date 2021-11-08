@@ -16,7 +16,7 @@
 <div class="d-flex justify-content-center">
     <div class="form-floating">
     
-        <form modelAttribute="blog" action="blog/create" method="post">
+        <form modelAttribute="blog" action="blog/create.htm" method="post">
         	<div class="form-group">
         		<label class="label">Tiêu đề</label>
         		<input class="form-control"  name="title" placeholder="Tiêu đề">
@@ -27,15 +27,21 @@
         		<select name="idCategory" class="form-control">
         		<c:forEach var="category" items="${categories }">
         		 	<option value="${category.idCategory }">${category.nameCategory }</option>
-        		</c:forEach>
-					 
+        		</c:forEach>				 
 				</select>
         	</div>
         	
             <label  class="form-label">Nội dung </label>
-            <textarea path="contentBlog" id="editor"></textarea>
-            <button type="submit"> Gửi </button>
+            <textarea name="contentBlog" id="editor"></textarea>
+            <br>
+            <div class="d-flex justify-content-center">
+            	<button type="submit" class="btn btn-primary"> Lưu </button>
+            </div>
+            
+            
+            
         </form>
+        <div>${message}</div>
     </div>
 </div>
 <script type="text/javascript">
