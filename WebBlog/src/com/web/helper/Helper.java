@@ -63,7 +63,7 @@ public class Helper {
     public static String convertTag(String str)
     {
     	
-    	str = removeAccent(str.replaceAll("[^A-Za-z0-9 ]", "")).toLowerCase();   	
+    	str = removeAccent(str).toLowerCase().replaceAll("[^A-Za-z0-9 ]", "");   	
     	ArrayList<String> strs = new ArrayList<String>();
     	String res = "";
     	for (String string : str.split(" ")) {
