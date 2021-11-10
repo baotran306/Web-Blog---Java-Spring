@@ -45,7 +45,7 @@ public class BlogController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String create(@ModelAttribute("blog") Blog blog, ModelMap model)
     {
-    	blog.setTagBog(Helper.convertTag(blog.getTitle()));
+    	blog.setTagBlog(Helper.convertTag(blog.getTitle()));
     	blog.setDateCreated(Calendar.getInstance().getTime());
     	blog.setViews(0);
         Session session = sessionFactory.openSession();
