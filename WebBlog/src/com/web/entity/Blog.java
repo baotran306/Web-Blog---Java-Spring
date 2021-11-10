@@ -4,11 +4,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -18,101 +24,122 @@ public class Blog {
     @GeneratedValue
     @Column(name = "Id")
     private int id ;
+    
     @Column(name = "Title")
     private String title;
+    
     @Column(name = "ContentBlog")
-    private String contentBlog ;
+    private String contentBlog;
+    
     @Column(name = "TagBlog")
-    private String tagBog ;
-    @Column(name = "IdCategory")
-    private int idCategory ;
+    private String tagBlog;
+    
+//    @Column(name = "IdCategory")
+//    private int idCategory;
+    
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "DateCreated")
     private Date dateCreated;
-    @Column(name = "Views")
     
+    @Column(name = "Views")
     private long views;
+    
+    @ManyToOne
+    @JoinColumn(name="IdCategory")
+    private Category category;
+    
+    @OneToMany(mappedBy="blog", fetch=FetchType.EAGER)
+    private Collection<Comment> comment;
+    
+    
+    
 
-    public Blog(int id, String title, String contentBlog, String tagBog, int idCategory, Date dateCreated, long views) {
-        this.id = id;
-        this.title = title;
-        this.contentBlog = contentBlog;
-        this.tagBog = tagBog;
-        this.idCategory = idCategory;
-        this.dateCreated = dateCreated;
-        this.views = views;
-    }
+	public Collection<Comment> getComment() {
+		return comment;
+	}
 
-    public Blog() {
-    }
+	public void setComment(Collection<Comment> comment) {
+		this.comment = comment;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getContentBlog() {
-        return contentBlog;
-    }
+	public String getContentBlog() {
+		return contentBlog;
+	}
 
-    public void setContentBlog(String contentBlog) {
-        this.contentBlog = contentBlog;
-    }
+	public void setContentBlog(String contentBlog) {
+		this.contentBlog = contentBlog;
+	}
 
-    public String getTagBog() {
-        return tagBog;
-    }
+	public String getTagBlog() {
+		return tagBlog;
+	}
 
-    public void setTagBog(String tagBog) {
-        this.tagBog = tagBog;
-    }
+	public void setTagBlog(String tagBlog) {
+		this.tagBlog = tagBlog;
+	}
 
-    public int getIdCategory() {
-        return idCategory;
-    }
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
-    public void setIdCategory(int idCategory) {
-        this.idCategory = idCategory;
-    }
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+	public long getViews() {
+		return views;
+	}
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+	public void setViews(long views) {
+		this.views = views;
+	}
 
-    public long getViews() {
-        return views;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setViews(long views) {
-        this.views = views;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", contentBlog='" + contentBlog + '\'' +
-                ", tagBog='" + tagBog + '\'' +
-                ", idCategory=" + idCategory +
-                ", dateCreated=" + dateCreated +
-                ", views=" + views +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Blog [id=" + id + ", title=" + title + ", contentBlog=" + contentBlog + ", tagBlog=" + tagBlog
+				+ ", dateCreated=" + dateCreated + ", views=" + views + ", category=" + category + "]";
+	}
+
+	public Blog() {
+		super();
+	}
+
+	public Blog(int id, String title, String contentBlog, String tagBlog, Date dateCreated, long views,
+			Category category) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.contentBlog = contentBlog;
+		this.tagBlog = tagBlog;
+		this.dateCreated = dateCreated;
+		this.views = views;
+		this.category = category;
+	}
+
+    
 }

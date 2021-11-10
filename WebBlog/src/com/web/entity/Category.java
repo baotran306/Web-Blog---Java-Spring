@@ -1,5 +1,7 @@
 package com.web.entity;
 
+import java.util.Collection;
+
 import javax.persistence.*;
 import javax.validation.constraints.Null;
 
@@ -17,18 +19,24 @@ public class Category {
     @Column(name = "IdParent")
     @Null
     private Integer idParent;
+    
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private Collection<Blog> blog;
+    
 
     public Category() {
     }
 
-    public Category(int idCategory, String nameCategory, String tagCategory, Integer idParent) {
-        this.idCategory = idCategory;
-        this.nameCategory = nameCategory;
-        this.tagCategory = tagCategory;
-        this.idParent = idParent;
-    }
+    public Category(int idCategory, String nameCategory, String tagCategory, Integer idParent, Collection<Blog> blog) {
+		super();
+		this.idCategory = idCategory;
+		this.nameCategory = nameCategory;
+		this.tagCategory = tagCategory;
+		this.idParent = idParent;
+		this.blog = blog;
+	}
 
-    public int getIdCategory() {
+	public int getIdCategory() {
         return idCategory;
     }
 
@@ -59,4 +67,14 @@ public class Category {
     public void setIdParent(Integer idParent) {
         this.idParent = idParent;
     }
+
+	public Collection<Blog> getBlog() {
+		return blog;
+	}
+
+	public void setBlog(Collection<Blog> blog) {
+		this.blog = blog;
+	}
+    
+	
 }
