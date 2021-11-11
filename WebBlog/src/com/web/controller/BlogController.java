@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @Controller
@@ -43,21 +44,20 @@ public class BlogController {
         return "blog/create";
     }
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("blog") Blog blog, ModelMap model)
+    public String create(@ModelAttribute("blog") Blog blog, ModelMap model, HttpServletRequest request)
     {
+    	int idCategory = Integer.parseInt(request.getParameter("idCategory"));
+    	blog.setCategory(getCategoryById(idCategory));
     	blog.setTagBlog(Helper.convertTag(blog.getTitle()));
     	blog.setDateCreated(Calendar.getInstance().getTime());
     	blog.setViews(0);
+    	
         Session session = sessionFactory.openSession();
         Transaction t = session.beginTransaction();
-        System.out.print(blog.toString());
-        try
-        {
+        try{
         	session.save(blog);
         	t.commit();
         	model.addAttribute("message","Thành công");
-        	
-        	
         	
         }catch (Exception e) {
 			
@@ -73,10 +73,18 @@ public class BlogController {
     public List<Category> getCategories()
     {
     	Session currentSession = sessionFactory.getCurrentSession();
-        Query query = currentSession.createQuery("from Category");
+        Query query = currentSession.createQuery("from Category where isDeleted = 0");
         List<Category> categories = query.list();
         return categories;
     }
 
+    public Category getCategoryById(int idCategory) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Category where idCategory = :idCategory";
+		Query query = session.createQuery(hql);
+		query.setParameter("idCategory", idCategory);
+		Category category = (Category)query.list().get(0);
+		return category;
+	}
 
 }

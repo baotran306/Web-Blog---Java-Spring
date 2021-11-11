@@ -23,7 +23,7 @@
         	</div>
              
             <div class="form-group">
-        		<label class="label">Tiêu đề</label>
+        		<label class="label">Chỉ mục</label>
         		<select name="idCategory" class="form-control">
         		<c:forEach var="category" items="${categories }">
         		 	<option value="${category.idCategory }">${category.nameCategory }</option>
