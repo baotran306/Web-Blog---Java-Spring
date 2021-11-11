@@ -11,6 +11,23 @@
 </head>
 <body>
 	
+	<c:if test="${message!=null }">
+		<c:choose>
+			<c:when test = "${message=='thanhcong'}">
+				<div class="alert alert-success alert-dismissible fade show">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		        <strong>Thành công</strong> 
+		    	</div>
+			</c:when>
+			<c:otherwise>
+				<div class="alert alert-danger alert-dismissible fade show">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		        <strong>Thất bại</strong> 
+		    	</div>
+			</c:otherwise>
+		</c:choose>
+    
+	</c:if>
 	
 	<div>
 		<table class="table table-striped table-hover">
@@ -76,12 +93,6 @@
 			</div>
 	</div>
 	
-	<c:if test="${message!=null }">
-    <div class="alert alert-danger alert-dismissible fade show">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>${message}</strong> 
-    </div>
-	</c:if>
 
 
 

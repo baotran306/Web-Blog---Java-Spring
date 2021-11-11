@@ -30,8 +30,9 @@ public class CategoryController {
 	SessionFactory factory;
 	
 	@RequestMapping("index")
-	public String showListCategory(ModelMap modelMap) {
-		modelMap.addAttribute("categories", this.getListCategories());
+	public String showListCategory(ModelMap modelMap, HttpServletRequest request) {
+		modelMap.addAttribute("categories", this.getListCategories());	
+        modelMap.addAttribute("message", request.getParameter("message"));
 		return "category/index";
 		
 	}
@@ -39,19 +40,19 @@ public class CategoryController {
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	public void insertNewCategory(@ModelAttribute("category") Category category, ModelMap modelMap, HttpServletRequest request,
             HttpServletResponse response) {
-		 //
 		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
 		category.setIsDeleted(0);
 		
+		String message = "";
 		if(this.insertCategory(category)) {
-			modelMap.addAttribute("message", "Thêm thành công");
+			message = "?message=thanhcong";
 		}
 		else {
-			modelMap.addAttribute("message", "Thêm thất bại");
+			message = "?message=thatbai";
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm");
+            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,37 +70,40 @@ public class CategoryController {
             HttpServletResponse response) {
 		category.setIsDeleted(0);
 		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
+		
+		String message = "";
 		if(this.updateCategory(category)) {
-			modelMap.addAttribute("message", "Cập nhật thành công");
+			message = "?message=thanhcong";
 		}
 		else {
-			modelMap.addAttribute("message", "Cập nhật thất bại");
+			message = "?message=thatbai";
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm");
+            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+//		return "category/index";
 	}
 	
 	@RequestMapping(value = "delete/{idCategory}.htm", params = "linkDelete")
 	public void deleteCategory(ModelMap modelMap, @PathVariable("idCategory") int idCategory, HttpServletRequest request,
 			HttpServletResponse response) {
+		String message = "";
 		if(deleteCategory(idCategory)) {
-			modelMap.addAttribute("message", "Xóa thành công");
+			message = "?message=thanhcong";
 		}
 		else {
-			modelMap.addAttribute("message", "Xóa thất bại");
+			message = "?message=thatbai";
 		}
-
 		modelMap.addAttribute("categories", this.getListCategories());
-		
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm");
+            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+//		return "category/index";
 	}
 	
 	public List<Category> getListCategories(){	
