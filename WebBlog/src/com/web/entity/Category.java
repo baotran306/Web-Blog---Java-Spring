@@ -17,8 +17,9 @@ public class Category {
     @Column(name = "TagCategory")
     private String tagCategory;
     @Column(name = "IdParent")
-    @Null
     private Integer idParent;
+    @Column(name = "IsDeleted")
+    private Integer isDeleted;
     
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private Collection<Blog> blog;
@@ -27,14 +28,32 @@ public class Category {
     public Category() {
     }
 
-    public Category(int idCategory, String nameCategory, String tagCategory, Integer idParent, Collection<Blog> blog) {
+
+
+	public Category(int idCategory, String nameCategory, String tagCategory, Integer idParent, Integer isDeleted,
+			Collection<Blog> blog) {
 		super();
 		this.idCategory = idCategory;
 		this.nameCategory = nameCategory;
 		this.tagCategory = tagCategory;
 		this.idParent = idParent;
+		this.isDeleted = isDeleted;
 		this.blog = blog;
 	}
+
+
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+
 
 	public int getIdCategory() {
         return idCategory;
