@@ -37,8 +37,8 @@ public class Blog {
 //    @Column(name = "IdCategory")
 //    private int idCategory;
     
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "DateCreated")
     private Date dateCreated;
     
@@ -119,18 +119,19 @@ public class Blog {
 		this.category = category;
 	}
 
-	@Override
-	public String toString() {
-		return "Blog [id=" + id + ", title=" + title + ", contentBlog=" + contentBlog + ", tagBlog=" + tagBlog
-				+ ", dateCreated=" + dateCreated + ", views=" + views + ", category=" + category + "]";
-	}
-
 	public Blog() {
 		super();
 	}
+	
+	@Override
+	public String toString() {
+		return "Blog [id=" + id + ", title=" + title + ", contentBlog=" + contentBlog + ", tagBlog=" + tagBlog
+				+ ", dateCreated=" + dateCreated + ", views=" + views + ", category=" + category + ", comment="
+				+ comment + "]";
+	}
 
 	public Blog(int id, String title, String contentBlog, String tagBlog, Date dateCreated, long views,
-			Category category) {
+			Category category, Collection<Comment> comment) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -139,7 +140,7 @@ public class Blog {
 		this.dateCreated = dateCreated;
 		this.views = views;
 		this.category = category;
+		this.comment = comment;
 	}
 
-    
 }
