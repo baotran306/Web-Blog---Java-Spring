@@ -16,23 +16,35 @@
 <div class="d-flex justify-content-center">
     <div class="form-floating">
     
-        <form modelAttribute="blog" action="blog/create.htm" method="post">
+        <form modelAttribute="blog" action="blog/update.htm" method="post">
+        	<input hidden value="${blog.id }">
+        	<input hidden value="${blog.id }">
+        	
+        	
         	<div class="form-group">
         		<label class="label">Tiêu đề</label>
-        		<input class="form-control"  name="title" placeholder="Tiêu đề">
+        		<input class="form-control"  name="title" placeholder="Tiêu đề" value="${blog.title }">
         	</div>
              
-            <div class="form-group" >
+            <div class="form-group">
         		<label class="label">Chỉ mục</label>
-        		<select name="idCategory" class="form-control" value = ${blog.id }>
-        		<c:forEach var="category" items="${categories }">
-        		 	<option value="${category.idCategory }">${category.nameCategory }</option>
+        		<select name="idCategory" class="form-control">
+        		<c:forEach var="category" items="${categories }">      			
+        			<c:choose>
+        				 <c:when test="${blog.category.idCategory == category.idCategory }">
+        					<option value="${category.idCategory }" selected="selected">${category.nameCategory }</option>
+        				</c:when>
+        				 <c:when test="${blog.category.idCategory != category.idCategory }">
+        					<option value="${category.idCategory }">${category.nameCategory }</option>
+        				</c:when>
+        			</c:choose>
+        		 	
         		</c:forEach>				 
 				</select>
         	</div>
         	
             <label  class="form-label">Nội dung </label>
-            <textarea name="contentBlog" id="editor"></textarea>
+            <textarea name="contentBlog" id="editor">${blog.contentBlog }</textarea>
             <br>
             <div class="d-flex justify-content-center">
             	<button type="submit" class="btn btn-primary"> Lưu </button>
