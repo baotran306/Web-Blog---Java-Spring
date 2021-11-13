@@ -97,21 +97,16 @@
 	    
 		    <div class="container single-col-max-width">
 			    
-			    <c:forEach items="${blogs }" var="blog">
-			    	 <div class="item mb-5">
+			  <div class="item mb-5">
 				    <div class="row g-3 g-xl-0">
-					    <div class="col-2 col-xl-3">
-					        <img class="img-fluid post-thumb " src="assets/images/blog/blog-post-thumb-2.jpg" alt="image">
-					    </div>
+					    
 					    <div class="col">
 						    <h3 class="title mb-1"><a class="text-link" href="blog-post.html">${blog.title }</a></h3>
 						    <div class="meta mb-1"><span class="date">${blog.dateCreated}</span><span class="time">Lược xem: ${blog.views}</span><span class="comment"><p >Thảo luận: ${blog.comment.size()}</a></span></div>
-						    <div class="intro">${blog.contentBlog.substring(0,475) }</div>
-						    <a class="text-link" href="blog/${blog.tagBlog }.htm">Read more &rarr;</a>
+						    <div class="intro">${blog.contentBlog }</div>
 					    </div><!--//col-->
 				    </div><!--//row-->
 			    </div><!--//item-->
-			    </c:forEach>
 			   
 			    
 			  

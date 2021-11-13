@@ -4,6 +4,8 @@ import com.web.entity.Blog;
 import com.web.entity.Category;
 import com.web.helper.Helper;
 
+import jdk.internal.icu.text.NormalizerBase.Mode;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -33,9 +35,15 @@ public class BlogController {
     
 	@Autowired
 	SessionFactory sessionFactory;
+	
+	 
+	
+	
     @RequestMapping("/index")
-    public String index(ModelMap theModelMap)
+    public String index(ModelMap modelMap)
     {
+    	List<Blog> blogs =  this.getBlogs();
+    	modelMap.addAttribute("blogs",blogs);
         return "blog/index";
     }
     
@@ -141,7 +149,21 @@ public class BlogController {
   	return "blog/update";
   	
   }
-
+  	
+  @RequestMapping(value = "{tag}.htm", method = RequestMethod.GET)
+  public String info( @PathVariable ("tag") String tag, 
+  		ModelMap model)
+  {
+  	
+  	Blog blog = getBlogByTag(tag);
+		if(blog == null )
+			return "not_found";
+		
+		model.addAttribute("blog",blog); 		
+  	return "blog/info";
+  	
+  }
+  
     @ModelAttribute("categories")
     public List<Category> getCategories()
     {
@@ -176,6 +198,12 @@ public class BlogController {
 		query.setParameter("id", id);
 		Blog blog = (Blog)query.uniqueResult();
 		return blog;
+	}
+  public List<Blog> getBlogs() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Blog";
+		Query query = session.createQuery(hql);
+		return query.list();
 	}
 
 }

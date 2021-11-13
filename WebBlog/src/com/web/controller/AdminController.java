@@ -159,6 +159,7 @@ public class AdminController {
             int result = query.executeUpdate();
             transaction.commit();
             return true;
+            
         }
         catch (Exception e){
             if(transaction != null) {
