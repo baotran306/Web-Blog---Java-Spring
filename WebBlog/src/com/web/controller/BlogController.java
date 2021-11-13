@@ -4,10 +4,13 @@ import com.web.entity.Blog;
 import com.web.entity.Category;
 import com.web.helper.Helper;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -74,7 +77,7 @@ public class BlogController {
   {
   	
   	Blog oldBlog = getBlogById(blog.getId());
-  	if(blog == null )
+  	if(oldBlog == null )
 			return "not_found";
   		
   	blog.setTagBlog(Helper.convertTag(blog.getTitle()));
@@ -97,12 +100,13 @@ public class BlogController {
       Session session = sessionFactory.openSession();
       Transaction t = session.beginTransaction();
       try{
-      	String hql = "Update Blog set contentBlog = :contentBlog, title = :title , tagBog = :tagBlog "
-      			+ "where id :id";
-      	Query query = session.createQuery(hql);
-      	query.setParameter("contentBlog", blog.getContentBlog());
+      	String hql = "update  Blog set title = :title, tagBlog = :tagBlog, idCategory = :idCategory, contentBlog = :contentBlog";
+      	Query  query = session.createQuery(hql);
       	query.setParameter("title", blog.getTitle());
-      	query.setParameter("tagBlog", blog.getTagBlog());
+    	query.setParameter("tagBlog", blog.getTagBlog());
+    	query.setParameter("idCategory",blog.getCategory().getIdCategory());
+    	query.setParameter("contentBlog", blog.getContentBlog());
+      	query.executeUpdate();
       	
       	t.commit();
       	model.addAttribute("message","Thành công");
@@ -115,6 +119,10 @@ public class BlogController {
       	model.addAttribute("blog",blog);
       	model.addAttribute("message","Thất bại");
       	return "redirect:/blog/update/"+ oldBlog.getTagBlog() + ".htm";
+		}finally {
+			
+			session.close();
+			
 		}
      // return "blog/update";
   }

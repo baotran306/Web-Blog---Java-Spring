@@ -17,8 +17,7 @@
     <div class="form-floating">
     
         <form modelAttribute="blog" action="blog/update.htm" method="post">
-        	<input hidden value="${blog.id }">
-        	<input hidden value="${blog.id }">
+        	<input hidden value="${blog.id }" name="id">
         	
         	
         	<div class="form-group">
@@ -28,7 +27,7 @@
              
             <div class="form-group">
         		<label class="label">Chỉ mục</label>
-        		<select name="idCategory" class="form-control">
+        		<select name="category.idCategory" class="form-control">
         		<c:forEach var="category" items="${categories }">      			
         			<c:choose>
         				 <c:when test="${blog.category.idCategory == category.idCategory }">
