@@ -100,13 +100,13 @@ public class BlogController {
       Session session = sessionFactory.openSession();
       Transaction t = session.beginTransaction();
       try{
-      	String hql = "update  Blog set title = :title, tagBlog = :tagBlog, idCategory = :idCategory, contentBlog = :contentBlog";
+      	String hql = "update  Blog set title = :title, tagBlog = :tagBlog, idCategory = :idCategory, contentBlog = :contentBlog where id = " + String.valueOf(blog.getId());
       	Query  query = session.createQuery(hql);
       	query.setParameter("title", blog.getTitle());
     	query.setParameter("tagBlog", blog.getTagBlog());
     	query.setParameter("idCategory",blog.getCategory().getIdCategory());
     	query.setParameter("contentBlog", blog.getContentBlog());
-      	query.executeUpdate();
+      	int a = query.executeUpdate();
       	
       	t.commit();
       	model.addAttribute("message","Thành công");
@@ -165,7 +165,7 @@ public class BlogController {
 		String hql = "FROM Blog where tagBlog = :tagBlog";
 		Query query = session.createQuery(hql);
 		query.setParameter("tagBlog", tagBlog);
-		Blog blog = (Blog)query.uniqueResult();
+		Blog blog = (Blog)query.list().get(0);
 		return blog;
 	}
   
