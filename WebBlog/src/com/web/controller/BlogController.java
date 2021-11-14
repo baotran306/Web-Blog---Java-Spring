@@ -70,6 +70,8 @@ public class BlogController {
 			e.printStackTrace();
 			model.addAttribute("blog", blog);
 			model.addAttribute("message", "Thất bại");
+		}finally {
+			session.close();
 		}
 		return "blog/create";
 	}
@@ -135,6 +137,13 @@ public class BlogController {
 		model.addAttribute("blog", blog);
 		return "blog/update";
 
+	}
+	@RequestMapping(value = "manager", method = RequestMethod.GET)
+	public String manager (ModelMap modelMap)
+	{
+		List<Blog> blogs = getBlogs();
+		modelMap.addAttribute("blogs",blogs);
+		return "blog/manager";
 	}
 
 	@RequestMapping(value = "{tag}.htm", method = RequestMethod.GET)
