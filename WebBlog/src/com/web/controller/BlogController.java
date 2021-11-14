@@ -4,7 +4,6 @@ import com.web.entity.Blog;
 import com.web.entity.Category;
 import com.web.helper.Helper;
 
-import jdk.internal.icu.text.NormalizerBase.Mode;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
