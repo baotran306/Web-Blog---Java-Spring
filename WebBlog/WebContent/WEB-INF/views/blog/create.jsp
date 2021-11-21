@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <base href="${pageContext.servletContext.contextPath }/">
-
+<!DOCTYPE html>
 <html>
 <head>
     <title>Create Blog</title>
@@ -12,7 +12,7 @@
 </script>
 <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
 <script src="<c:url value="/resources/ckeditor/ckeditor.js" />"></script>
-<script type="text/javascript" src="/resources/ckfinder/ckfinder.js"></script >
+<script type="text/javascript" src="/resources/ckfinder/ckfinder.js"></script>
 <div class="d-flex justify-content-center">
     <div class="form-floating">
     
@@ -25,7 +25,7 @@
             <div class="form-group">
         		<label class="label">Chỉ mục</label>
         		<select name="idCategory" class="form-control">
-        		<c:forEach var="category" items="${categories }">
+        		<c:forEach var="category" items="${categories}">
         		 	<option value="${category.idCategory }">${category.nameCategory }</option>
         		</c:forEach>				 
 				</select>
@@ -48,5 +48,5 @@
     var editor = CKEDITOR.replace( 'editor' );
     CKFinder.setupCKEditor(editor, '${pageContext.request.contextPath}/resources/ckfinder/');
 </script >
-
+</body>
 </html>

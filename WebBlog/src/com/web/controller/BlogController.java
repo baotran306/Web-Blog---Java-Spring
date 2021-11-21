@@ -3,6 +3,11 @@ package com.web.controller;
 import com.web.entity.Blog;
 import com.web.entity.Category;
 import com.web.helper.Helper;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -13,10 +18,11 @@ import org.hibernate.Transaction;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -25,6 +31,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import com.web.entity.Blog;
+import com.web.entity.Category;
+import com.web.entity.Comment;
 
 @Controller
 @Transactional
@@ -177,7 +186,7 @@ public class BlogController {
 		return "blog/info";
 
 	}
-
+	//@Transactional
 	@ModelAttribute("categories")
 	public List<Category> getCategories() {
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -185,7 +194,8 @@ public class BlogController {
 		List<Category> categories = query.list();
 		return categories;
 	}
-
+	
+	//@Transactional
 	public Category getCategoryById(int idCategory) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM Category where idCategory = :idCategory";
@@ -194,7 +204,7 @@ public class BlogController {
 		Category category = (Category) query.list().get(0);
 		return category;
 	}
-
+	//@Transactional
 	public Blog getBlogByTag(String tagBlog) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM Blog where tagBlog = :tagBlog";
@@ -203,7 +213,7 @@ public class BlogController {
 		Blog blog = (Blog) query.list().get(0);
 		return blog;
 	}
-
+	//@Transactional
 	public Blog getBlogById(Integer id) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM Blog where id = :id";
@@ -212,12 +222,50 @@ public class BlogController {
 		Blog blog = (Blog) query.uniqueResult();
 		return blog;
 	}
-
+	//@Transactional
 	public List<Blog> getBlogs() {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM Blog";
 		Query query = session.createQuery(hql);
 		return query.list();
 	}
+
+    
+   // @Transactional
+    @ModelAttribute("comments")
+    public List<Comment> getCommentList(HttpServletRequest request) {
+    	Session currentSession = sessionFactory.getCurrentSession();
+    	Query query = currentSession.createQuery("from Comment");
+    	List<Comment> comments = query.list();
+    	request.setAttribute("comments", comments);
+    	return comments;  	
+    }
+    @RequestMapping(value="/comment",method=RequestMethod.GET)
+    public String createCommentBox(ModelMap theModelMap) {
+    	theModelMap.addAttribute("comment",new Comment());
+    	return "comment/comment";
+    }
+    
+    @RequestMapping(value="/comment",method=RequestMethod.POST)
+    public String postCommentBox(ModelMap theModelMap,@ModelAttribute("comment") Comment comment) {
+    	
+    	//comment.setBlog();
+    	Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+        try{
+        	session.save(comment);
+        	t.commit();
+        	theModelMap.addAttribute("message","Thành công");        	
+        }catch (Exception e) {
+			
+        	t.rollback();
+        	e.printStackTrace();
+        	System.out.print("thaats bai");
+        	theModelMap.addAttribute("blog",comment);
+        	theModelMap.addAttribute("message","Thất bại");
+		}
+    	theModelMap.addAttribute("comment",new Comment());
+    	return "redirect:/blog/comment.htm";
+    }
 
 }
