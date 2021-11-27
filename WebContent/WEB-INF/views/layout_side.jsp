@@ -1,11 +1,11 @@
-<%@ page language="java"  pageEncoding="utf-8"%>
+<%@ page language="java" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 	<div class="sb-sidenav-menu">
 		<div class="nav">
 			<div class="sb-sidenav-menu-heading">Core</div>
-			<a class="nav-link" href="index.html">
+			<a class="nav-link" href="/">
 				<div class="sb-nav-link-icon">
 					<i class="fas fa-tachometer-alt"></i>
 				</div> Dashboard
@@ -24,12 +24,12 @@
 			<div class="collapse" id="collapseLayouts"
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="layout-static.html">Quản lý</a> <a
-						class="nav-link" href="layout-sidenav-light.html">Tạo mới</a>
+					<a class="nav-link" href="category/manager.htm">Quản lý</a> <a
+						class="nav-link" href="">Tạo mới</a>
 				</nav>
 			</div>
 			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-				data-bs-target="#collapsePages" aria-expanded="false"
+				data-bs-target="#collapseBlog" aria-expanded="false"
 				aria-controls="collapsePages">
 				<div class="sb-nav-link-icon">
 					<i class="fas fa-book-open"></i>
@@ -38,34 +38,11 @@
 					<i class="fas fa-angle-down"></i>
 				</div>
 			</a>
-			<div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-				data-bs-parent="#sidenavAccordion">
-				<nav class="sb-sidenav-menu-nested nav accordion"
-					id="sidenavAccordionPages">
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-						data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-						aria-controls="pagesCollapseAuth"> Quản lý
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
-					</a>
-					<div class="collapse" id="pagesCollapseAuth"
-						aria-labelledby="headingOne"
-						data-bs-parent="#sidenavAccordionPages">
-						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="login.html">Login</a> <a
-								class="nav-link" href="register.html">Register</a> <a
-								class="nav-link" href="password.html">Forgot Password</a>
-						</nav>
-					</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-						data-bs-target="#pagesCollapseError" aria-expanded="false"
-						aria-controls="pagesCollapseError"> Error
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
-					</a>
-
+			<div class="collapse" id="collapseBlog"
+				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+				<nav class="sb-sidenav-menu-nested nav">
+					<a class="nav-link" href="blog/manager.htm?page=1">Quản lý</a> <a
+						class="nav-link" href="blog/create.htm">Tạo mới</a>
 				</nav>
 			</div>
 

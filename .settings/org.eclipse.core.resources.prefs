@@ -2,5 +2,6 @@ eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/views/category/main-category.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/comment/comment.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/layout_side.jsp=UTF-8
+encoding//WebContent/WEB-INF/views/navbar.jsp=UTF-8
 encoding//src/com/web/controller/BlogController.java=UTF-8
 encoding//src/com/web/helper/Helper.java=UTF-8

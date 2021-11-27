@@ -29,11 +29,11 @@ public class CategoryController {
 	@Autowired
 	SessionFactory factory;
 	
-	@RequestMapping("index")
+	@RequestMapping("manager")
 	public String showListCategory(ModelMap modelMap, HttpServletRequest request) {
 		modelMap.addAttribute("categories", this.getListCategories());	
         modelMap.addAttribute("message", request.getParameter("message"));
-		return "category/index";
+		return "category/manager";
 		
 	}
 	
@@ -52,11 +52,11 @@ public class CategoryController {
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
+            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
-		return "redirect:/category/index.htm";
+		return "redirect:/category/manager.htm";
 	}
 	
 	@RequestMapping(value = "update/{idCategory}.htm", params = "linkUpdate")
@@ -80,11 +80,11 @@ public class CategoryController {
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
+            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
-		return "category/index";
+		return "category/manager";
 	}
 	
 	@RequestMapping(value = "delete/{idCategory}.htm", params = "linkDelete")
@@ -99,11 +99,11 @@ public class CategoryController {
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/index.htm" + message);
+            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
-		return "category/index";
+		return "category/manager";
 	}
 
 	@RequestMapping(value = "home",method = RequestMethod.GET)
