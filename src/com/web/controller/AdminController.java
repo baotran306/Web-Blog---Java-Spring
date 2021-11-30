@@ -42,9 +42,10 @@ public class AdminController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@ModelAttribute("admin") UserAdmin admin, ModelMap modelMap, HttpServletRequest request,
-                        HttpServletResponse response){
+                        HttpServletResponse response, HttpSession session){
         if (checkLoginAdmin(admin.getUsername(), admin.getPassword())){
             try {
+            	session.setAttribute("username", admin.getUsername());
                 response.sendRedirect(request.getContextPath() + "/blog/create.htm");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,6 +53,12 @@ public class AdminController {
         }
         modelMap.addAttribute("message", "Sai tên đăng nhập hoặc mật khẩu");
         return "admin/login";
+    }
+    
+    @RequestMapping("logout")
+    public String Logout(HttpSession session) {
+    	session.removeAttribute("username");
+    	return "redirect:/admin/login";
     }
 
     @RequestMapping(value = "verify-email", params = "verifyEmail")
@@ -96,6 +103,25 @@ public class AdminController {
         System.out.println(email);
         System.out.println(newVerifyNumber);
         return "admin/verify-email";
+    }
+    
+    @RequestMapping(value = "change-password", method = RequestMethod.GET)
+    public String goPageChangePassword(){
+        return "admin/reset-password";
+    }
+    
+    @RequestMapping(value = "change-password", method = RequestMethod.POST)
+    public String changeNewPassword(@RequestParam("newPassword") String newPassword, HttpSession session,
+            ModelMap modelMap){
+    	String username = session.getAttribute("username").toString();
+        if(updatePassword(username, newPassword)){
+            return "admin/login";
+        }
+        else{
+            modelMap.addAttribute("message", "Đổi mật khẩu thất bại!");
+            System.out.println(username);
+            return "admin/reset-password";
+        }
     }
 
     @RequestMapping(value = "reset-password", method = RequestMethod.POST)
