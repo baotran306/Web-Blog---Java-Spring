@@ -58,7 +58,7 @@ public class AdminController {
     @RequestMapping("logout")
     public String Logout(HttpSession session) {
     	session.removeAttribute("username");
-    	return "redirect:/admin/login";
+    	return "redirect:/admin/login.htm";
     }
 
     @RequestMapping(value = "verify-email", params = "verifyEmail")

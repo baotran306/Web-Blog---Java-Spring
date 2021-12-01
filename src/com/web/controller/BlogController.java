@@ -31,7 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
 
+import java.net.http.HttpRequest;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collections;
@@ -53,17 +55,19 @@ public class BlogController {
 	SessionFactory sessionFactory;
 
 	@RequestMapping(value = "f/{categoryTag}.htm")
-	public String index(@PathVariable("categoryTag") String tag,ModelMap modelMap) {
+	public String index(@PathVariable("categoryTag") String tag,ModelMap modelMap,HttpServletRequest request) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM Category where tagCategory = :tagCategory";
 		System.out.println(tag);
 		Query query = session.createQuery(hql);		
 		query.setParameter("tagCategory", tag);
 		Category category = (Category)query.list().get(0);
-		query = session.createQuery("FROM Blog where IdCategory = :idCategory");
+		modelMap.addAttribute("category",category);
+		query = session.createQuery("FROM Blog where IdCategory = :idCategory order by dateCreated desc");
 		query.setParameter("idCategory", category.getIdCategory());
 		List<Blog> blogs = query.list();
 		modelMap.addAttribute("blogs", blogs);
+		request.setAttribute("requestBlogs", blogs);
 		return "blog/category-detail";
 	}
 	
@@ -209,6 +213,7 @@ public class BlogController {
 	public String info(@PathVariable("tag") String tag
 			, ModelMap model,HttpServletRequest request,@RequestParam("page")int getPage) {
 		Optional<Integer> page = Optional.of(getPage);
+		checkNullComment();
 		Blog blog = getBlogByTag(tag);
 		if (blog == null)
 			return "not_found";
@@ -383,6 +388,24 @@ public class BlogController {
                 = new PageImpl<Blog>(list, PageRequest.of(currentPage, pageSize), blogs.size());
 
         return blocommentPage;
+    }
+    
+    public Boolean checkNullComment() {
+    	Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+    	String hql = "from Comment";
+    	try {
+    		Query query = session.createQuery(hql);
+    		if(query.list().size()==0) {
+    			Comment comment = new Comment();
+    			session.save(comment);
+    			t.commit();    	        
+    		}
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		t.rollback();
+		}
+    	return true;
     }
 
 }
