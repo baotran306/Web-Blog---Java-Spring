@@ -84,14 +84,14 @@ header{
 	</div>
 	<div id="navbar">
 	  <a href="javascript:void(0)">Home</a>
-	  <a class="active" href="category/home.htm">Category</a>
+	  <a class="active" href="category/home.htm">Danh mục</a>
 	  <a href="javascript:void(0)">Contact</a>
    	</div>
 </header>
 <div class="content">
 	<p style="color: #fff;font-size: 14px">
 		<a href="category/home.htm">
-			<span class="category">Category<span>
+			<span class="category">Danh mục<span>
 		</a>
 		<i class="fas fa-chevron-right"></i>
 				
@@ -121,7 +121,7 @@ header{
 <div class="main-wrapper">
 		<div >
 			<div class="card" >
-			<div class="card-header">${category.getNameCategory()}</div>
+			<div class="card-header" style="color:white">${category.getNameCategory()}</div>
 			<div class="card-body">
 			<div class="name-comment">
 				<table>

@@ -69,7 +69,7 @@
 	</header>
 	<div class="content">
 		<div class="card" >
-			<div class="card-header">Category</div>
+			<div class="card-header "style="color:white">Danh mục</div>
 				<div class="card-body">
 				<c:forEach var="category" items="${categories }">
 					<div class="form-menu-category">

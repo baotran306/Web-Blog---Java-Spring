@@ -52,11 +52,11 @@ public class CategoryController {
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
 		try {
-            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
-        } catch (IOException e) {
+    		return "redirect:/category/manager.htm";
+        } catch (Exception e) {
             e.printStackTrace();
+        	return "redirect:/category/manager.htm";
         }
-		return "redirect:/category/manager.htm";
 	}
 	
 	@RequestMapping(value = "update/{idCategory}.htm", params = "linkUpdate")
@@ -65,28 +65,16 @@ public class CategoryController {
         return "category/update";
     }
 	
-	@RequestMapping(value = "update", method=RequestMethod.POST)
-	public String updateCategory(ModelMap modelMap, @ModelAttribute("category") Category category, HttpServletRequest request,
-            HttpServletResponse response) {
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String update(@ModelAttribute("category")Category category) {
+		System.out.println("check");
 		category.setIsDeleted(0);
 		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
-		
-		String message = "";
-		if(this.updateCategory(category)) {
-			message = "?message=thanhcong";
+		if(category!=null) {
+			updateCategory(category);
 		}
-		else {
-			message = "?message=thatbai";
-		}
-		modelMap.addAttribute("categories", this.getListCategories());
-		try {
-            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		return "category/manager";
+		return"redirect:/category/manager.htm";
 	}
-	
 	@RequestMapping(value = "delete/{idCategory}.htm", params = "linkDelete")
 	public String deleteCategory(ModelMap modelMap, @PathVariable("idCategory") int idCategory, HttpServletRequest request,
 			HttpServletResponse response) {

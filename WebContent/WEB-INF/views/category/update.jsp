@@ -70,18 +70,14 @@
 			<div class="card-header">Category</div>
 				<div class="card-body">	
 				      <div  class="col-md-4">
-				      <form class="form-update" action="category/update.htm" modelAttribute="category">
+				      <form class="form-update" action="category/update.htm" modelAttribute="category" method="post">
 				        <div hidden>
 				            <label>ID</label>
 				            <input class="form-control"  name="idCategory" placeholder="Tên chỉ mục" value="${category.idCategory}">
 				        </div>
 				       <div class="form-group">
 					        <label class="label">Tên chỉ mục</label>
-					        <input class="form-control"  name="namCategory" placeholder="Tên chỉ mục" value="${category.nameCategory}">
-					   </div>
-				        <div class="form-group">
-					        <label class="label">Id Parent</label>
-					        <input class="form-control"  name="idParent" placeholder="idParent" value="${category.idParent }">
+					        <input class="form-control"  name="nameCategory" placeholder="Tên chỉ mục" value="${category.nameCategory}">
 					   </div>
 				        <div class="btn-update">
 				            <button style='float:left; margin-left:100px' class="btn btn-primary">Cập nhật</button>

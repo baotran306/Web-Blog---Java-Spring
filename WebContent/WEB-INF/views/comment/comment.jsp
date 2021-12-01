@@ -256,7 +256,7 @@
 			<header class="title">
 				<p style="color: #fff;font-size: 14px">
 					<a href="category/home.htm">
-						<span class="category">Category</span>
+						<span class="category">Danh mục</span>
 					</a>
 					<i class="fas fa-chevron-right"></i>
 					<a href="blog/f/${blog.getCategory().getTagCategory()  }.htm">
@@ -299,8 +299,8 @@
 			       						+"<div class=\"container-replay\">"
 			       						+"<a class=\"replay\" onclick=\"myfunction('value-comment"+c.getIdComment()+"','name-comment"+c.getIdComment()+"',"+c.getIdComment()+")\">"
 			       						+"<span class=\"fas fa-reply\"> Reply</span>"
-			       						+"</a></div></div></div>"); 
-       					 };
+				       					+"</a></div></div></div>"); 
+	       					 };
        					 }%>
        		<div style="margin-top: 5px">			
 			 <nav aria-label="..." >
