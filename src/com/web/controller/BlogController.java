@@ -26,6 +26,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import com.web.entity.Blog;
 import com.web.entity.Category;
 import com.web.entity.Comment;
@@ -50,7 +54,7 @@ import com.web.entity.Comment;
 @Transactional
 @RequestMapping("/blog/")
 public class BlogController {
-
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -179,6 +183,7 @@ public class BlogController {
 		Blog blog = (Blog) query.list().get(0);
 		session.delete(blog);
 		t.commit();
+		creteCommentNull();
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -326,25 +331,25 @@ public class BlogController {
     }
     
     @RequestMapping(value="t/{tag}.htm",method=RequestMethod.POST)
-    public String postCommentBox(@PathVariable("tag")String tag,ModelMap theModelMap,@ModelAttribute("comment") Comment comment) {
+    public String postCommentBox(@PathVariable("tag")String tag
+    		,ModelMap theModelMap
+    		,@Validated@ModelAttribute("comment") Comment comment
+    		,BindingResult result) {
     	
     	//comment.setBlog();
-    	System.out.println(comment.getBlog());
     	Session session = sessionFactory.openSession();
         Transaction t = session.beginTransaction();
         try{
         	session.save(comment);
         	t.commit();
         	theModelMap.addAttribute("message","Thành công");        	
-        }catch (Exception e) {
-			
+        }catch (Exception e) {			
         	t.rollback();
         	e.printStackTrace();
         	System.out.print("thaats bai");
         	theModelMap.addAttribute("blog",comment);
         	theModelMap.addAttribute("message","Thất bại");
-		}
-    	theModelMap.addAttribute("comment",new Comment());
+		}   	
     	return "redirect:/blog/t/"+tag+".htm?page=1";
     }
     
@@ -398,6 +403,7 @@ public class BlogController {
     		Query query = session.createQuery(hql);
     		if(query.list().size()==0) {
     			Comment comment = new Comment();
+    			comment.setNameComment("11");
     			session.save(comment);
     			t.commit();    	        
     		}
@@ -406,6 +412,20 @@ public class BlogController {
     		t.rollback();
 		}
     	return true;
+    }
+    public void creteCommentNull() {
+    	Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+        try {
+    			Comment comment = new Comment();
+    			comment.setNameComment("11");
+    			session.save(comment);
+    			t.commit();    	        
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		e.printStackTrace();
+    		t.rollback();
+		}
     }
 
 }

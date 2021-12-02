@@ -112,9 +112,10 @@
 		}
 		.name-comment{
 			grid-area:name-comment;
-			width: 80%;
-			height: auto;
-			margin: 5px;
+			position:relative;
+			height: 40px;
+			left:10px;
+			top:10px
 		}
 		.text-area{
 			position:relative;
@@ -243,7 +244,38 @@
 		.category:hover {
 			color: #ff944d;
 			text-decoration: underline;
-		}  
+		}
+		.name-comment i.fa-exclamation-circle{
+			visibility: hidden;
+		}
+		.name-comment small{
+			visibility: hidden;
+		}
+		.name-comment.error small{
+			visibility: visible;
+			position:absolute;
+			left:705px;
+			top:0px;
+			color: red;
+			font-size: 16px
+		}
+		.name-comment.error i.fa-exclamation-circle{
+			visibility: visible;
+			position:absolute;
+			left:680px;
+			top:5px;
+			color: red;
+			font-size: 14px;
+		}
+		.name-comment.error input{
+			border-color: red;
+		}
+		.name-comment.success i.fa-exclamation-circle{
+			visibility: hidden;
+		}
+		.name-comment.success small{
+			isibility: hidden;
+		}
 	</style>
 </head>
 <body>
@@ -280,7 +312,6 @@
  					<hr>
  					<div class="container-replay">
  						<a class="replay" onclick="myfunction('value-comment0','name-comment0',0)">
- 							<span class="fas fa-reply">Reply</span>
  						</a>
  					</div>
  				</div>
@@ -323,15 +354,17 @@
 			</div>																			
 		</div>
 		<div class ="container-comment">
-			<form action="blog/t/${blog.getTagBlog()}.htm" method="post" modelAttribute="comment">
+			<form id="form-Comment-post" action="blog/t/${blog.getTagBlog() }.htm" method="post" modelAttribute="comment">
 				<div class="comment-size">
 					<div hidden>
 						<input type="text" name="blog.id" value="${blog.getId() }">
 					</div>
 					<div class="name-comment">
-						<input type="text" class="form-control" name="nameComment" placeholder="Name comment"> 
+						<input style="width: 700px" type="text" class="form-control" id="namComment" name="nameComment" placeholder="Name comment">
+						<i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
 					</div>
-					<div class="text-area">
+					<div class="text-area" id="comment-content">
 						<textarea rows="10" cols="20" name = "contentComment" id="editor">
 							<div id = "value-comment${idComment+1 }">
 								<p></p>
@@ -339,7 +372,7 @@
 						</textarea>	
 					</div>
 					<div class="button-submit">
-						<button class="btn btn-primary" type="submit">
+						<button class="btn btn-primary" id="submit" type="submit">
 							<i class="fas fa-reply"></i>
 							<span>Post Replay</span>
 						</button>
@@ -350,7 +383,6 @@
 	</div>
 	  <script>
 	  window.onscroll = function() {myFunction()};
-
 	  var navbar = document.getElementById("navbar");
 	  var sticky = navbar.offsetTop;
 
@@ -361,10 +393,12 @@
 	      navbar.classList.remove("sticky");
 	    }
 	  }
+	 
     </script>
 
 	<script type="text/javascript">
 	 	 var editor = CKEDITOR.replace( 'editor');
+		 var submit = document.getElementById("submit");
 	 	 CKEDITOR.config.removePlugins = 'magicline';
 	 	 var data = new Array();
 	 	 <%
@@ -417,8 +451,6 @@
 						+'<i id="1"><div class="bbCodeBlock-expandLink" id="js-click'+id+'" onclick="showExpand('+'\''+id+'\''+')">'
 						+'<a role="button" tabindex="0">Click to expand...</a></div></i></div></blockquote>'
 						+'<div id="value-comment'+id+'"><p></p></div>');
-				/* var value = editor.setData(comment12); */
-				alert(editor.getData());
 		}
 	        function showExpand(idValue) {
 	        	const classAccordion = document.getElementById("accordion"+idValue);
@@ -427,6 +459,43 @@
 		        expande.style.display = "none";
 		        console.log("true");
 	        }
+	        function checkInput(){
+	        	var check=true;
+	  		  var comment = document.getElementById("namComment");
+				var id = parseInt(data[data.length-1])+1;
+				const commentContent = document.getElementById("comment-content");
+	  			if(comment.value===""){
+	  				setErrorFor(comment, "Vui lòng nhập nick name của bạn!");
+	  				check=false;
+	  			}else{
+	  				setSuccesFor(comment);
+	  			}
+	  			var test = editor.getData().trim();
+	  			console.log(test.length);
+
+	  			return check;
+	  	  }
+	  	  
+	  	  function setErrorFor(input, message) {
+	  		    const formControl = input.parentElement;
+
+	  		    const small = formControl.querySelector('small');
+
+	  		    small.innerText = message;
+	  		    formControl.className = 'name-comment error';
+	  		}
+
+	  		function setSuccesFor(input) {
+	  		    const formControl = input.parentElement;
+	  		    formControl.className = 'name-comment success';
+	  		}
+	  		submit.addEventListener("click",function(event){
+	  			if (checkInput() === true) {
+	  				
+	  	        } else {
+	  	        	event.preventDefault();
+	  	        }
+	  		});
 	        disExpand();
 	</script>
 </body>
