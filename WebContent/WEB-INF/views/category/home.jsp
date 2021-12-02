@@ -53,53 +53,57 @@
 		.card-header{
 			background-color: #5c7099;
 		}
+		.card{
+			margin-bottom: 20px;
+		}
+		.title-category{
+			color: white;
+		}
 	</style>
 </head>
 <body>					
-	<header>
-	<div class="header1">
-	  <h2>Blog ThangBaoHien</h2>
-	</div>
 	<div id="navbar">
-	   <a href="category/home.htm"">Trang chủ</a>
-	  <a class="active" href="category/category-detail.htm">Danh mục</a>
+	   <a class="active" href="category/home.htm"">Trang chủ</a>
+	  <a  href="category/category-detail.htm">Danh mục</a>
    	</div>
 	</header>
 	<div class="content">
-		<div class="card" >
-			<div class="card-header "style="color:white">Danh mục</div>
-				<div class="card-body">
-				<c:forEach var="category" items="${categories }">
-					<div class="form-menu-category">
-						<div class="title">
-							<i class="fas fa-comments"></i>
-							<span><a href="blog/f/${category.tagCategory}.htm"><b>${category.nameCategory }</b></a></span>
+		<c:forEach var="category" items="${categories}" begin="0" end="4">
+			<c:if test="${category.getBlog().size()!=0 }">
+				<div class="card" >
+					<div class="card-header "style="color:white"><a class="title-category" href="blog/f/${category.tagCategory}.htm">${category.getNameCategory()}</a></div>
+						<div class="card-body">
+						<c:forEach var="blog" items="${category.getBlog() }" begin="0" end="${4 }">
+							<div class="form-menu-category">
+								<div class="title">
+									<i class="fas fa-comments"></i>
+									<span><a href="blog/t/${blog.tagBlog }.htm?page=1"><b>${blog.title}</b></a></span>
+								</div>
+								<div class="infor">
+									<table style="width: 100%">
+										<thead>
+											<th style="margin-right: 5px;text-align: center;">Lượt xem</th>
+											<th style="text-align: center;margin-right: 5px;">bình luận</th>
+											<th style="text-align: center;">Thời gian đăng</th>
+										</thead>
+										<tbody>
+											<tr>
+												<td style="text-align: center;">
+													${blog.views }
+												</td>
+												<td style="text-align: center;">${blog.getComment().size() }</td>
+											    <td style="text-align: center;">${blog.dateCreated }</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<hr>
+						</c:forEach>
 						</div>
-						<div class="infor">
-							<table style="width: 100%">
-								<thead>
-									<th style="margin-right: 5px;text-align: center;">views</th>
-									<th style="text-align: center;">Threads</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td style="text-align: center;">
-											<c:set var="views" value="${0 }"/>
-											<c:forEach var="blog" items="${category.getBlog() }">
-												<c:set var="views" value="${views+blog.getViews() }" />
-											</c:forEach>
-											${views}
-										</td>
-										<td style="text-align: center;">${category.getBlog().size() }</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<hr>
-				</c:forEach>
 				</div>
-		</div>				
+		</c:if>
+		</c:forEach>				
 	</div>
   <script>
 	  window.onscroll = function() {myFunction()};

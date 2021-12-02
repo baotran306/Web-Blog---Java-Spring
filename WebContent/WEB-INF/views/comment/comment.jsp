@@ -213,6 +213,10 @@
             position: relative;
             font-size: 1.4rem;
         }
+        .accordion img{
+        	width: 50%;
+        	position: relative;
+        }
         .card-comment{
         	margin-top:10px;
         	width:100%;
@@ -244,12 +248,9 @@
 </head>
 <body>
 <header>
-	<div class="header">
-	  <h2>Scroll Down</h2>
-	</div>
 	<div id="navbar">
-	  <a  href="cjavascript:void(0)">Home</a>
-	  <a  class="active" href="category/home.htm">Danh mục</a>
+	   <a href="category/home.htm"">Trang chủ</a>
+	  <a class="active" href="category/category-detail.htm">Danh mục</a>
    </div>
 </header>	
 	<div class="content">		

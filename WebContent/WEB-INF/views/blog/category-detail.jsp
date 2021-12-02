@@ -27,7 +27,6 @@
 	<link href="<c:url value="resources/css/menu-bar-style.css" />" rel="stylesheet">
 	<style type="text/css">
 body{
-	background-color: #15191d;
 }
 header{
    display: block;
@@ -79,12 +78,9 @@ header{
 </head>
 <body>
 <header>
-	<div class="header1">
-	  <h2>Blog ThangBaoHien</h2>
-	</div>
 	<div id="navbar">
-	  <a href="javascript:void(0)">Home</a>
-	  <a class="active" href="category/home.htm">Danh mục</a>
+	  <a href="category/home.htm"">Trang chủ</a>
+	  <a class="active" href="category/category-detail.htm">Danh mục</a>
    	</div>
 </header>
 <div class="content">

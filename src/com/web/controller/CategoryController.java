@@ -94,11 +94,18 @@ public class CategoryController {
 		return "category/manager";
 	}
 
-	@RequestMapping(value = "home",method = RequestMethod.GET)
+	@RequestMapping(value = "category-detail",method = RequestMethod.GET)
 	public String mainCatagory(ModelMap theModelMap) {
 		List<Category> categories = getListCategories();
 		theModelMap.addAttribute("categories",categories);
 		return "category/main-category";
+	}
+	
+	@RequestMapping(value = "home",method = RequestMethod.GET)
+	public String home(ModelMap theModelMap) {
+		List<Category> categories = getListCategories();
+		theModelMap.addAttribute("categories",categories);
+		return "category/home";
 	}
 	
 	public List<Category> getListCategories(){	
