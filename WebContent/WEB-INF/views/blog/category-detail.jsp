@@ -85,7 +85,6 @@ header{
 	<div id="navbar">
 	  <a href="javascript:void(0)">Home</a>
 	  <a class="active" href="category/home.htm">Danh mục</a>
-	  <a href="javascript:void(0)">Contact</a>
    	</div>
 </header>
 <div class="content">
@@ -231,7 +230,7 @@ header{
 					</tbody>
 				</table>
 			</div>
-			</div>`
+			</div> <hr>`
 			div.innerHTML += row;
 		}
 	}

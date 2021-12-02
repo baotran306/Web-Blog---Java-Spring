@@ -63,8 +63,7 @@
 	</div>
 	<div id="navbar">
 	  <a href="javascript:void(0)">Home</a>
-	  <a class="active" href="category/home.htm">Category</a>
-	  <a href="javascript:void(0)">Contact</a>
+	  <a class="active" href="category/home.htm">Danh mục</a>
    	</div>
 	</header>
 	<div class="content">

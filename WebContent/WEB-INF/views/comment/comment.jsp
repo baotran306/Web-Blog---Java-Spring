@@ -66,6 +66,7 @@
 			text-align: justify;
 			width:auto;
 			height:auto;
+			overflow: auto;
 		}
 		.box-comment p{
 			padding: 5px;
@@ -238,7 +239,7 @@
 		.category:hover {
 			color: #ff944d;
 			text-decoration: underline;
-		}    
+		}  
 	</style>
 </head>
 <body>
@@ -248,8 +249,7 @@
 	</div>
 	<div id="navbar">
 	  <a  href="cjavascript:void(0)">Home</a>
-	  <a  class="active" href="category/home.htm">Category</a>
-	  <a  href="javascript:void(0)">Contact</a>
+	  <a  class="active" href="category/home.htm">Danh mục</a>
    </div>
 </header>	
 	<div class="content">		
@@ -273,7 +273,9 @@
  					<p id="name-comment0" class="user-style">admin</p>
  				</div>
  				<div class="box-comment" id="box-comment0">
- 					<div id="value-comment0">${blog.getContentBlog() }</div>
+ 					<div id="value-comment0">
+ 							${blog.getContentBlog() }
+ 					</div>
  					<hr>
  					<div class="container-replay">
  						<a class="replay" onclick="myfunction('value-comment0','name-comment0',0)">
