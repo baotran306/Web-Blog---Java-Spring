@@ -312,6 +312,7 @@
  					<hr>
  					<div class="container-replay">
  						<a class="replay" onclick="myfunction('value-comment0','name-comment0',0)">
+ 							<span class="fas fa-reply"> Reply</span>
  						</a>
  					</div>
  				</div>
