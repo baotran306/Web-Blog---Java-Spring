@@ -22,21 +22,19 @@
 		<!-- Chỉ lọc các URL theo path -->
 		 <mvc:interceptor>
 			<mvc:mapping path="/admin/change-password.htm"/>
-			<!-- <mvc:mapping path="/blog/create.htm"/> -->
-			<!-- <mvc:mapping path="/category/manager.htm"/> -->
-			<!-- <mvc:mapping path="/blog/manager.htm"/> -->
+			<mvc:mapping path="/blog/create.htm"/>
+			<mvc:mapping path="/category/manager.htm"/>
+			<mvc:mapping path="/blog/manager.htm"/>
+			<mvc:mapping path="/blog/update/**.htm"/>
+			<mvc:mapping path="/blog/delete/**.htm"/>
+			<mvc:mapping path="/category/manager.htm"/>
+			<mvc:mapping path="/admin/home.htm"/>
+			<mvc:mapping path="/category/update/**.htm"/>
+			<mvc:mapping path="/category/delete/**.htm"/>
 			<bean class="com.web.Interceptor.LoggerInterceptor" />
 		</mvc:interceptor> 
 		 
-		 <!-- <mvc:interceptor>
-			<mvc:mapping path="/user/**"/>
-			<mvc:mapping path="/order/**"/>
-			<mvc:exclude-mapping path="/user/login.htm"/>
-			<mvc:exclude-mapping path="/user/register.htm"/>
-			<mvc:exclude-mapping path="/user/forgot-password.htm"/>
-			<mvc:exclude-mapping path="/user/activate.htm"/>
-			<bean class="poly.interceptor.SecurityInterceptor" />
-		</mvc:interceptor> -->
+
 	</mvc:interceptors>
 
 </beans>

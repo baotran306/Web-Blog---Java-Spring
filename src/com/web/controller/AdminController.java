@@ -1,6 +1,8 @@
 package com.web.controller;
 
 import com.web.SendMail.Mailer;
+import com.web.entity.Blog;
+import com.web.entity.Category;
 import com.web.entity.UserAdmin;
 
 import org.hibernate.Query;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +37,32 @@ public class AdminController {
     
     @Autowired
     SessionFactory sessionFactory;
-
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home(ModelMap modelMap){
+    	
+        return "dashboard";
+    }
+    
+    @ModelAttribute("blogs")
+    public List<Blog> getBlogs()
+    {
+    	Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Blog ORDER BY views desc";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(0).setMaxResults(10);
+		return query.list();
+    }
+    
+    @ModelAttribute("categorys")
+    public List<Category> getCategory()
+    {
+    	Session session = sessionFactory.getCurrentSession();
+		String hql = "From Category where isDeleted = 0";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(0).setMaxResults(10);
+		return query.list();
+    }
+    
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String showLogin(){
         return "admin/login";
@@ -46,7 +74,7 @@ public class AdminController {
         if (checkLoginAdmin(admin.getUsername(), admin.getPassword())){
             try {
             	session.setAttribute("username", admin.getUsername());
-                response.sendRedirect(request.getContextPath() + "/blog/create.htm");
+                response.sendRedirect(request.getContextPath() + "/admin/home.htm");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -115,7 +143,7 @@ public class AdminController {
             ModelMap modelMap){
     	String username = session.getAttribute("username").toString();
         if(updatePassword(username, newPassword)){
-            return "admin/login";
+            return "redirect:admin/home.htm";
         }
         else{
             modelMap.addAttribute("message", "Đổi mật khẩu thất bại!");

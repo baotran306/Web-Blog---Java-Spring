@@ -34,7 +34,7 @@
 		    border-radius: 5px;
 		}
 		.card-body{
-		    background-color: #d3d5d7;
+		    background-color: #ebeced;
 		}
 		.form-menu-category{
 			 display: grid;
@@ -70,7 +70,7 @@
 	<div class="content">
 		<c:forEach var="category" items="${categories}" begin="0" end="4">
 			<c:if test="${category.getBlog().size()!=0 }">
-				<div class="card" >
+				<div class="card border-0" >
 					<div class="card-header "style="color:white"><a class="title-category" href="blog/f/${category.tagCategory}.htm">${category.getNameCategory()}</a></div>
 						<div class="card-body">
 						<c:forEach var="blog" items="${category.getBlog() }" begin="0" end="${4 }">

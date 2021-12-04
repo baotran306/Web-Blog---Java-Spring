@@ -5,7 +5,7 @@
 	<div class="sb-sidenav-menu">
 		<div class="nav">
 			<div class="sb-sidenav-menu-heading">Core</div>
-			<a class="nav-link" href="/">
+			<a class="nav-link" href="admin/home.htm">
 				<div class="sb-nav-link-icon">
 					<i class="fas fa-tachometer-alt"></i>
 				</div> Dashboard
@@ -24,8 +24,7 @@
 			<div class="collapse" id="collapseLayouts"
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="category/manager.htm">Quản lý</a> <a
-						class="nav-link" href="">Tạo mới</a>
+					<a class="nav-link" href="category/manager.htm">Quản lý</a> 
 				</nav>
 			</div>
 			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
