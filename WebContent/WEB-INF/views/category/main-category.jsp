@@ -34,7 +34,7 @@
 		    border-radius: 5px;
 		}
 		.card-body{
-		    background-color: #d3d5d7;
+		    background-color: #ebeced;
 		}
 		.form-menu-category{
 			 display: grid;
@@ -53,26 +53,29 @@
 		.card-header{
 			background-color: #5c7099;
 		}
+		.title span a:hover{
+			color:#ff944d;
+		}
+		.title span a{
+			color:#23497c;
+			font-size:20px;
+		}
 	</style>
 </head>
 <body>					
-	<header>
-	<div class="header1">
-	  <h2>Blog ThangBaoHien</h2>
-	</div>
 	<div id="navbar">
 	   <a href="category/home.htm"">Trang chủ</a>
 	  <a class="active" href="category/category-detail.htm">Danh mục</a>
    	</div>
 	</header>
 	<div class="content">
-		<div class="card" >
+		<div class="card border-0" >
 			<div class="card-header "style="color:white">Danh mục</div>
 				<div class="card-body">
 				<c:forEach var="category" items="${categories }">
 					<div class="form-menu-category">
 						<div class="title">
-							<i class="fas fa-comments"></i>
+							<i class="fas fa-comments" style="color: #ffba8c;"></i>
 							<span><a href="blog/f/${category.tagCategory}.htm"><b>${category.nameCategory }</b></a></span>
 						</div>
 						<div class="infor">

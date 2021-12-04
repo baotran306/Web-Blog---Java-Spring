@@ -67,6 +67,7 @@
 			width:auto;
 			height:auto;
 			overflow: auto;
+			padding-top: 20px;
 		}
 		.box-comment p{
 			padding: 5px;
@@ -88,9 +89,11 @@
 			width:auto;
 			bottom:10px;
 			font-size: 16px;
+			font-weight: normal;
 		}
 		.container-replay a span{
-		 	color:blue;
+		 	color:#23497c;
+		 	font-size: 1.5rem;
 		}
 		.container-replay a span:hover{
 			cursor:pointer;
@@ -147,15 +150,14 @@
         .container-collapse {
             width: 100%;
             height:auto;
-            max-width: 80rem;
-            margin: 0 auto;
-            padding: 0 1rem;
+/*             max-width: 80rem;
+ */            margin: 0 auto;
+            padding: 0 0.5rem;
             position: relative;
         }
         
         .accordion {
             color: #15191d;
-            background: #ebeced;
             border-top-color: #cbcdd0;
             border-right-color: #c3c6c9;
             border-bottom-color: #b5b9bd;
@@ -233,10 +235,13 @@
         	display: block;
         }
         .title{
-        	margin-bottom: 50px;
+        	margin-bottom: 20px;
         } 
         .user-style{
-        	margin-top: 25px
+        	margin-top: 25px;
+        	color: #23497c;
+        	font-size: 24px;
+        	font-weight: bold;
         }
         .category{
 			color:  #dce7f5
@@ -276,19 +281,31 @@
 		.name-comment.success small{
 			isibility: hidden;
 		}
+		.header1 {
+		  background-color: #f1f1f1;
+		  padding: 30px;
+		  text-align: center;
+		}
+		.bbCodeBlock-title {
+		    padding: 6px 10px;
+		    font-size: 0.875rem;
+		    color: #ff944d;
+		    background: #e7e8e9;
+		}
 	</style>
 </head>
 <body>
 <header>
+
 	<div id="navbar">
-	   <a href="category/home.htm"">Trang chủ</a>
+	  <a href="category/home.htm"">Trang chủ</a>
 	  <a class="active" href="category/category-detail.htm">Danh mục</a>
-   </div>
+   	</div>
 </header>	
 	<div class="content">		
 			<header class="title">
 				<p style="color: #fff;font-size: 14px">
-					<a href="category/home.htm">
+					<a href="category/category-detail.htm">
 						<span class="category">Danh mục</span>
 					</a>
 					<i class="fas fa-chevron-right"></i>
@@ -444,8 +461,8 @@
 
 				var value = editor.setData('<blockquote class="bbCodeBlock bbCodeBlock--expandable">'
 						+'<div class="container-collapse"><div class="accordion" id="accordion'+id+'">'
-						+'<p><span style="font-size:20px;color:#ff944d;">'
-						+user.textContent+':</span></p>'
+						+'<div class="bbCodeBlock-title"><p><span style="font-size:20px;color: #ff944d;">'
+						+user.textContent+':</span></p></div>'
 						+'<span style="font-family:Times New Roman,Times,serif;font-size:14px;">'
 						+comment.innerHTML
 						+'</span></div>'

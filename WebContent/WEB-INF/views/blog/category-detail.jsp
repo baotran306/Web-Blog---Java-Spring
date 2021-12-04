@@ -48,7 +48,7 @@ header{
     border-radius: 5px;
 }
 .card-body{
-    background-color: #d3d5d7;
+    background-color: #ebeced;
 }
 .category{
 	color:  #dce7f5
@@ -74,6 +74,13 @@ header{
 			 grid-template-rows: 1fr;
 			 grid-template-areas:"title infor";
 		}
+		.title span a:hover{
+			color:#ff944d;
+		}
+		.title span a{
+			color:#23497c;
+			font-size:20px;
+		}
 </style>
 </head>
 <body>
@@ -85,7 +92,7 @@ header{
 </header>
 <div class="content">
 	<p style="color: #fff;font-size: 14px">
-		<a href="category/home.htm">
+		<a href="category/category-detail.htm">
 			<span class="category">Danh mục<span>
 		</a>
 		<i class="fas fa-chevron-right"></i>
@@ -115,7 +122,7 @@ header{
 %>
 <div class="main-wrapper">
 		<div >
-			<div class="card" >
+			<div class="card border-0" >
 			<div class="card-header" style="color:white">${category.getNameCategory()}</div>
 			<div class="card-body">
 			<div class="name-comment">
@@ -137,7 +144,7 @@ header{
 					<c:forEach items="${blogs }" var="blog">
 				 	<div class="form-menu-category" id="blog-title">
 						<div class="title">
-							<i class="fas fa-blog"></i>
+							<i class="fas fa-blog" style="color: #ffba8c;"></i>
 							<span><a href="blog/t/${blog.tagBlog}.htm?page=1"><b>${blog.getTitle() }</b></a></span>
 							<p style="font-size:16px;padding-left:40px"><i class="fas fa-user-shield"> </i> Đăng bởi admin</p>
 						</div>
@@ -145,7 +152,7 @@ header{
 							<table style="width: 100%">
 								<thead>
 									<th style="margin-right: 5px;text-align: center;">Lượt xem</th>
-									<th style="text-align: center;margin-right: 5px;">bình luận</th>
+									<th style="text-align: center;margin-right: 5px;">Bình luận</th>
 									<th style="text-align: center;">Thời gian đăng</th>
 								</thead>
 								<tbody>

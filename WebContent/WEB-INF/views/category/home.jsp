@@ -59,9 +59,13 @@
 		.title-category{
 			color: white;
 		}
+		.title-category:hover{
+			color:#ff944d;
+		}
 	</style>
 </head>
-<body>					
+<body>
+	<header>					
 	<div id="navbar">
 	   <a class="active" href="category/home.htm"">Trang chủ</a>
 	  <a  href="category/category-detail.htm">Danh mục</a>
@@ -73,11 +77,11 @@
 				<div class="card border-0" >
 					<div class="card-header "style="color:white"><a class="title-category" href="blog/f/${category.tagCategory}.htm">${category.getNameCategory()}</a></div>
 						<div class="card-body">
-						<c:forEach var="blog" items="${category.getBlog() }" begin="0" end="${4 }">
+						<c:forEach var="blog" items="${category.getBlog() }" begin="0" end="4">
 							<div class="form-menu-category">
 								<div class="title">
-									<i class="fas fa-comments"></i>
-									<span><a href="blog/t/${blog.tagBlog }.htm?page=1"><b>${blog.title}</b></a></span>
+									<i class="fas fa-comments" style="color: #ffba8c;"></i>
+									<span><a href="blog/t/${blog.tagBlog }.htm?page=1" style="color:#23497c;font-size:20px;"><b>${blog.title}</b></a></span>
 								</div>
 								<div class="infor">
 									<table style="width: 100%">

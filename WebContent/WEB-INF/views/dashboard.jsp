@@ -38,7 +38,7 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">Charts</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="admin/home.htm">Dashboard</a></li>
 						<li class="breadcrumb-item active">Charts</li>
 					</ol>
 					<div>
