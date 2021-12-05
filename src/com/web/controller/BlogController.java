@@ -55,6 +55,9 @@ import com.web.entity.Comment;
 @RequestMapping("/blog/")
 public class BlogController {
 	
+	private String messge ;
+	private String result ;
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -84,9 +87,36 @@ public class BlogController {
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String create(@ModelAttribute("blog") Blog blog, ModelMap model, HttpServletRequest request) {
-		int idCategory = Integer.parseInt(request.getParameter("idCategory"));
-		blog.setCategory(getCategoryById(idCategory));
+	public String create(@ModelAttribute("blog") Blog blog, ModelMap model, HttpServletRequest request, BindingResult error) {
+		
+		boolean validate = true;
+		if(blog.getTitle().trim().length() == 0)
+		{
+			 error.rejectValue("title","blog","Vui lòng nhập tiêu đề");
+			 validate = false;
+		}else
+		{
+			String tag = Helper.convertTag(blog.getTitle().trim()).trim();
+			
+			if(getBlogByTag(tag)!=null)			
+			{
+				error.rejectValue("title","blog","Tiêu đề không hợp lệ vui lòng đổi sang một tiêu đề khác!");
+				validate = false;
+			}
+		}
+		
+		
+		if(blog.getContentBlog().trim().length()==0)
+		{
+			error.rejectValue("contentBlog","blog","Vui lòng nhập nội dung");
+			validate = false;
+		}
+		
+		if(validate == false)
+			return "blog/create";
+				
+		
+		blog.setCategory(getCategoryById(blog.getCategory().getIdCategory()));
 		blog.setTagBlog(Helper.convertTag(blog.getTitle()));
 		blog.setDateCreated(Calendar.getInstance().getTime());
 		blog.setViews(0);
@@ -96,14 +126,18 @@ public class BlogController {
 		try {
 			session.save(blog);
 			t.commit();
-			model.addAttribute("message", "Thành công");
+			
+			messge= "Thành công";
+			result= "true";
+			return "redirect:manager.htm?page=1";
 
 		} catch (Exception e) {
 
 			t.rollback();
 			e.printStackTrace();
 			model.addAttribute("blog", blog);
-			model.addAttribute("message", "Thất bại");
+			messge= "Thất bại";
+			result= "false";
 		}finally {
 			session.close();
 		}
@@ -111,24 +145,42 @@ public class BlogController {
 	}
 
 	@RequestMapping(value = "update.htm", method = RequestMethod.POST)
-	public String update(@ModelAttribute("blog") Blog blog, ModelMap model, HttpServletRequest request) {
-
+	public String update(@ModelAttribute("blog") Blog blog, ModelMap model, HttpServletRequest request,BindingResult error) {
+		
+		boolean validate = true;
 		Blog oldBlog = getBlogById(blog.getId());
 		if (oldBlog == null)
 			return "not_found";
-		System.out.println(blog.getTitle());
-		blog.setTagBlog(Helper.convertTag(blog.getTitle()));
-
-		// checkTagBlog
-		Blog ckeckBlog = getBlogByTag(blog.getTagBlog());
-		if (ckeckBlog != null) {
-			if (ckeckBlog.getId() != blog.getId()) {
-				model.addAttribute("blog", blog);
-				model.addAttribute("message", "Tiêu đề không khả dụng");
-				return "redirect:/blog/update/" + oldBlog.getTagBlog() + ".htm";
-
+		
+		if(blog.getTitle().trim().length() == 0)
+		{
+			 error.rejectValue("title","blog","Vui lòng nhập tiêu đề");
+			 validate = false;
+		}else
+		{
+			String tag = Helper.convertTag(blog.getTitle().trim()).trim();
+			
+			if(getBlogByTag(tag)!=null )			
+			{
+				if(getBlogByTag(tag).getId() != blog.getId())
+				{
+					error.rejectValue("title","blog","Tiêu đề không hợp lệ vui lòng đổi sang một tiêu đề khác!");
+					validate = false;
+				}
+				
 			}
 		}
+		blog.setTagBlog( Helper.convertTag(blog.getTitle().trim()).trim());
+		
+		
+		if(blog.getContentBlog().trim().length()==0)
+		{
+			error.rejectValue("contentBlog","blog","Vui lòng nhập nội dung");
+			validate = false;
+		}
+		
+		if(validate == false)
+			return "blog/create";
 
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -143,8 +195,9 @@ public class BlogController {
 			int a = query.executeUpdate();
 
 			t.commit();
-			model.addAttribute("message", "Thành công");
-			return "blog/manager";
+			messge= "Thành công";
+			result= "true";
+			return "redirect:manager.htm?page=1";
 
 		} catch (Exception e) {
 
@@ -183,13 +236,18 @@ public class BlogController {
 		Blog blog = (Blog) query.list().get(0);
 		session.delete(blog);
 		t.commit();
+		messge = "Thành công";
+		result = "true";
 		creteCommentNull();
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			t.rollback();
+			messge = "Lỗi hệ thống";
+			result = "false";
 		}
+		
 		return "redirect:/blog/manager.htm?page=1";
 
 	}
@@ -203,6 +261,11 @@ public class BlogController {
 	    int pageSize = size.orElse(5);
 		Page<Blog> pageBlog = findPaginBlog(PageRequest.of(currentPage-1,pageSize));	
 		modelMap.addAttribute("blogs",pageBlog);
+		modelMap.addAttribute("message", messge);
+		modelMap.addAttribute("result", result);
+		
+		messge = "";
+		result = "";
 	    int totalPages = pageBlog.getTotalPages();
 	    if (totalPages > 0) {
 	       List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -293,8 +356,10 @@ public class BlogController {
 		String hql = "FROM Blog where tagBlog = :tagBlog";
 		Query query = session.createQuery(hql);
 		query.setParameter("tagBlog", tagBlog);
-		Blog blog = (Blog) query.list().get(0);
-		return blog;
+		List<Blog> blog = query.list();
+		if(blog.size() == 0)
+			return null;
+		return blog.get(0);
 	}
 
 	//@Transactional
@@ -303,13 +368,15 @@ public class BlogController {
 		String hql = "FROM Blog where id = :id";
 		Query query = session.createQuery(hql);
 		query.setParameter("id", id);
-		Blog blog = (Blog) query.uniqueResult();
-		return blog;
+		List<Blog> blog = query.list();
+		if(blog.size() == 0)
+			return null;
+		return blog.get(0);
 	}
 	//@Transactional
 	public List<Blog> getBlogs() {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM Blog";
+		String hql = "FROM Blog where Blog.Category.isDeleted = 0";
 		Query query = session.createQuery(hql);
 		return query.list();
 	}

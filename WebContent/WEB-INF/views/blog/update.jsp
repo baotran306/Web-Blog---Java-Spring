@@ -41,36 +41,34 @@
 						<li class="breadcrumb-item active">cập nhật</li>
 					</ol>
 					<div>
-
-						<form modelAttribute="blog" action="blog/update.htm" method="post">
-							<input hidden value="${blog.id }" name="id">
+					
+					
+						<form:form modelAttribute="blog" action="blog/update.htm" method="post">
 							<div class="form-group">
-								<label class="label">Tiêu đề</label> <input class="form-control"
-									name="title" placeholder="Tiêu đề" value="${blog.title }">
+							<form:hidden value="${blog.id }" path="id"></form:hidden>
+								<label class="label">Tiêu đề</label> <form:input class="form-control"
+									path="title" placeholder="Tiêu đề"></form:input>
+									<div style="color: red;">
+										<form:errors path="title"></form:errors>
+									</div>
+								
 							</div>
-							
 							<br>
 							<div class="form-group">
-								<label class="label">Chỉ mục</label> <select
-									name="category.idCategory" class="form-control">
-									<c:forEach var="category" items="${categories }">
-										<c:choose>
-											<c:when
-												test="${blog.category.idCategory == category.idCategory }">
-												<option value="${category.idCategory }" selected="selected">${category.nameCategory }</option>
-											</c:when>
-											<c:when
-												test="${blog.category.idCategory != category.idCategory }">
-												<option value="${category.idCategory }">${category.nameCategory }</option>
-											</c:when>
-										</c:choose>
-
+								<label class="label">Chỉ mục</label> <form:select path="category.idCategory"
+									class="form-control">
+									<c:forEach var="category" items="${categories}">
+										<option value="${category.idCategory }">${category.nameCategory }</option>
 									</c:forEach>
-								</select>
+								</form:select>
 							</div>
 							<br>
 							<label class="form-label">Nội dung </label>
-							<textarea name="contentBlog" id="editor">${blog.contentBlog }</textarea>
+							<form:textarea path="contentBlog" id="editor" rows="30"></form:textarea>
+							<div style="color: red;">
+							<form:errors path="contentBlog"></form:errors>
+							</div>
+							
 							<br>
 							<div class="d-flex justify-content-center">
 								<button type="submit" class="btn btn-primary">Lưu</button>
@@ -78,8 +76,8 @@
 
 
 
-						</form>
-						<div>${message}</div>
+						</form:form>
+
 					</div>
 
 				</div>

@@ -10,10 +10,9 @@
 <body>
 
 
-	</script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<link href="<c:url value="/resources/bootstrap/css/styles.css" />"
 		rel="stylesheet">
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
@@ -29,6 +28,19 @@
 			<%@include file="/WEB-INF/views/layout_side.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
+		
+		
+		<c:if test="${result == 'true'}">
+		<div id="SuccessMeg" class="alert alert-success" role="alert">
+                ${message}
+         </div>
+		</c:if>
+		<c:if test="${result == 'false'}">
+		<div id="SuccessMeg" class="alert alert-danger" role="alert">
+                ${message}
+         </div>
+		</c:if>
+          
 			<main>
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">Quản lí Blog</h1>
@@ -92,7 +104,11 @@
 		</div>
 	</div>
 
-
+    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
 </body>
 </html>
 

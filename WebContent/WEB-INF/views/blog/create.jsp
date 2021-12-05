@@ -29,6 +29,7 @@
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
+
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">Tạo mới Blog</h1>
 					<ol class="breadcrumb mb-4">
@@ -37,23 +38,31 @@
 					</ol>
 					<div >
 
-						<form modelAttribute="blog" action="blog/create.htm" method="post">
+						<form:form modelAttribute="blog" action="blog/create.htm" method="post">
 							<div class="form-group">
-								<label class="label">Tiêu đề</label> <input class="form-control"
-									name="title" placeholder="Tiêu đề">
+								<label class="label">Tiêu đề</label> <form:input class="form-control"
+									path="title" placeholder="Tiêu đề"></form:input>
+									<div style="color: red;">
+										<form:errors path="title"></form:errors>
+									</div>
+								
 							</div>
 							<br>
 							<div class="form-group">
-								<label class="label">Chỉ mục</label> <select name="idCategory"
+								<label class="label">Chỉ mục</label> <form:select path="category.idCategory"
 									class="form-control">
 									<c:forEach var="category" items="${categories}">
 										<option value="${category.idCategory }">${category.nameCategory }</option>
 									</c:forEach>
-								</select>
+								</form:select>
 							</div>
 							<br>
 							<label class="form-label">Nội dung </label>
-							<textarea name="contentBlog" id="editor" rows="30"></textarea>
+							<form:textarea path="contentBlog" id="editor" rows="30"></form:textarea>
+							<div style="color: red;">
+							<form:errors path="contentBlog"></form:errors>
+							</div>
+							
 							<br>
 							<div class="d-flex justify-content-center">
 								<button type="submit" class="btn btn-primary">Lưu</button>
@@ -61,7 +70,7 @@
 
 
 
-						</form>
+						</form:form>
 						<div>${message}</div>
 					</div>
 

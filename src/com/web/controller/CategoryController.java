@@ -28,11 +28,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CategoryController {
 	@Autowired
 	SessionFactory factory;
+	String result = "";
+	String message = "";
 	
 	@RequestMapping("manager")
-	public String showListCategory(ModelMap modelMap, HttpServletRequest request) {
+	public String showListCategory(ModelMap modelMap) {
 		modelMap.addAttribute("categories", this.getListCategories());	
-        modelMap.addAttribute("message", request.getParameter("message"));
+        modelMap.addAttribute("message",message);
+        modelMap.addAttribute("result", result);
+        
+        message = "";
+        result = "";
 		return "category/manager";
 		
 	}
@@ -40,23 +46,32 @@ public class CategoryController {
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	public String insertNewCategory(@ModelAttribute("category") Category category, ModelMap modelMap, HttpServletRequest request,
             HttpServletResponse response) {
-		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
-		category.setIsDeleted(0);
 		
-		String message = "";
+		
+		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
+		
+		if(getCategoryByTag(category.getTagCategory()) != null)
+		{
+			result = "false";
+			message = "Tên danh mục không hợp lệ";
+			return "redirect:/category/manager.htm";
+		}
+			
+		
+		
+		
+		
+		category.setIsDeleted(0);
 		if(this.insertCategory(category)) {
-			message = "?message=thanhcong";
+			result = "true";
+			message = "Thành công";
 		}
 		else {
-			message = "?message=thatbai";
+			result = "false";
+			message = "Lỗi hệ thống";
 		}
 		modelMap.addAttribute("categories", this.getListCategories());
-		try {
-    		return "redirect:/category/manager.htm";
-        } catch (Exception e) {
-            e.printStackTrace();
-        	return "redirect:/category/manager.htm";
-        }
+		return "redirect:/category/manager.htm";
 	}
 	
 	@RequestMapping(value = "update/{idCategory}.htm", params = "linkUpdate")
@@ -67,31 +82,49 @@ public class CategoryController {
 	
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(@ModelAttribute("category")Category category) {
-		System.out.println("check");
+		
+		
+		
+		
+		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
+		
+		if(getCategoryByTag(category.getTagCategory()) != null && getCategoryByTag(category.getTagCategory()).getIdCategory()!=category.getIdCategory())
+		{
+			result = "false";
+			message = "Tên danh mục không hợp lệ";
+			return"redirect:/category/manager.htm";
+		}
+		
 		category.setIsDeleted(0);
 		category.setTagCategory(Helper.convertTag(category.getNameCategory()));
 		if(category!=null) {
-			updateCategory(category);
+			
+			if(updateCategory(category))
+			{
+				result = "true";
+				message = "Thành công";
+			}else
+			{
+				result = "false";
+				message = "Lỗi hệ thống";
+			}
 		}
 		return"redirect:/category/manager.htm";
 	}
 	@RequestMapping(value = "delete/{idCategory}.htm", params = "linkDelete")
 	public String deleteCategory(ModelMap modelMap, @PathVariable("idCategory") int idCategory, HttpServletRequest request,
 			HttpServletResponse response) {
-		String message = "";
 		if(deleteCategory(idCategory)) {
-			message = "?message=thanhcong";
+
+			result = "true";
+			message = "Thành công";
 		}
 		else {
-			message = "?message=thatbai";
+			result = "false";
+			message = "Thất bại";
 		}
-		modelMap.addAttribute("categories", this.getListCategories());
-		try {
-            response.sendRedirect(request.getContextPath() + "/category/manager.htm" + message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		return "category/manager";
+		
+		return"redirect:/category/manager.htm";
 	}
 
 	@RequestMapping(value = "category-detail",method = RequestMethod.GET)
@@ -130,8 +163,10 @@ public class CategoryController {
 		String hql = "FROM Category where tagCategory = :tagCategory";
 		Query query = session.createQuery(hql);
 		query.setParameter("tagCategory", tagCategory);
-		Category category = (Category)query.list().get(0);
-		return category;
+		List<Category> categories = query.list();
+		if(categories.size() == 0)
+			return null;
+		return categories.get(0);
 	}
 	
 	public boolean insertCategory(Category category) {

@@ -6,6 +6,38 @@
 <html>
 <head>
 <title>Quản lí danh mục</title>
+<style type="text/css">
+
+		.form-group #icon.fa-exclamation-circle{
+			visibility: hidden;
+		}
+		.form-group small{
+			visibility: hidden;
+		}
+		.form-group.error small{
+			visibility: visible;
+			position:absolute;
+			color: red;
+			left:40px;
+			font-size: 16px
+		}
+		.form-group.error #icon.fa-exclamation-circle{
+			visibility: visible;
+			position:absolute;
+			color: red;
+			bottom:75px;
+			font-size: 14px;
+		}
+		.form-group.error input{
+			border-color: red;
+		}
+		.form-group.success #icon.fa-exclamation-circle{
+			visibility: hidden;
+		}
+		.form-group.success small{
+			isibility: hidden;
+		}
+</style>
 </head>
 <body>
 
@@ -29,6 +61,17 @@
 			<%@include file="/WEB-INF/views/layout_side.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
+		
+		<c:if test="${result == 'true'}">
+		<div id="SuccessMeg" class="alert alert-success" role="alert">
+                ${message}
+         </div>
+		</c:if>
+		<c:if test="${result == 'false'}">
+		<div id="SuccessMeg" class="alert alert-danger" role="alert">
+                ${message}
+         </div>
+		</c:if>
 			<main>
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">Quản lí danh mục</h1>
@@ -103,6 +146,8 @@
 														<label for="nameCategory" class="col-form-label">Tên
 															danh mục:</label> <input type="text" class="form-control"
 															id="nameCategory" name='nameCategory' />
+															<i id="icon"  class="fas fa-exclamation-circle"></i>
+                        									<small>Error message</small>
 													</div>
 													<br>
 													<input type="text" class="form-control" id="idParent"
@@ -110,7 +155,7 @@
 													<div class='d-flex' style='justify-content: end'>
 														<button type="button" class="btn btn-secondary mr-4"
 															data-dismiss="modal">Close</button> &nbsp
-														<button class="btn btn-primary">Lưu</button>
+														<button class="btn btn-primary" id="submit">Lưu</button>
 													</div>
 												</form>
 											</div>
@@ -127,6 +172,46 @@
 			</main>
 		</div>
 	</div>
+	<script type="text/javascript">
+	function checkInput(){
+    	var check=true;
+		  var nameCategory = document.getElementById("nameCategory");
+			if(nameCategory.value===""){
+				setErrorFor(nameCategory, "Vui lòng nhập tên danh mục!");
+				check=false;
+			}else{
+				setSuccesFor(nameCategory);
+			}
+			return check;
+	  }
+	  
+	  function setErrorFor(input, message) {
+		    const formControl = input.parentElement;
+
+		    const small = formControl.querySelector('small');
+
+		    small.innerText = message;
+		    formControl.className = 'form-group error';
+		}
+
+		function setSuccesFor(input) {
+		    const formControl = input.parentElement;
+		    formControl.className = 'form-group success';
+		}
+		submit.addEventListener("click",function(event){
+			if (checkInput() === true) {
+				
+	        } else {
+	        	event.preventDefault();
+	        }
+		});
+	
+	</script>
+	    <script>
+        setTimeout(function () {
+            $("#SuccessMeg").fadeOut('slow');
+        }, 2000);
+    </script>
 
 	<!-- jQuery library -->
 	<script
