@@ -47,7 +47,7 @@ public class AdminController {
     public List<Blog> getBlogs()
     {
     	Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM Blog ORDER BY views desc";
+		String hql = "FROM Blog b where b.category.isDeleted=0 ORDER BY b.views desc";
 		Query query = session.createQuery(hql);
 		query.setFirstResult(0).setMaxResults(10);
 		return query.list();

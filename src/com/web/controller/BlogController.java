@@ -376,7 +376,7 @@ public class BlogController {
 	//@Transactional
 	public List<Blog> getBlogs() {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM Blog where Blog.Category.isDeleted = 0";
+		String hql = "FROM Blog b where b.category.isDeleted=0";
 		Query query = session.createQuery(hql);
 		return query.list();
 	}
